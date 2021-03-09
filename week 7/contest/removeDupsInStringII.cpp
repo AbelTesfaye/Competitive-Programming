@@ -1,3 +1,7 @@
+/*
+ space O(n)
+ time O(n^2)
+*/
 class Solution {
 public:
     string removeDuplicates(string s, int k) {
@@ -32,5 +36,42 @@ public:
         }
         
         return s;
+    }
+};
+
+/*
+ time and space O(n), yet slower than the above
+*/
+class Solution {
+public:
+    string removeDuplicates(string s, int k) {        
+        stack< pair<char, int>  > st;
+        
+        for(char c: s){
+            if(st.empty()){
+                st.push({c,1});
+            } else{
+                if(st.top().first == c){
+                    st.top().second++;
+                } else {
+                    st.push({c, 1});
+                } 
+            }
+            
+            if(st.top().second == k){
+                st.pop();
+            }
+        }
+       
+        string ret = "";
+        
+        while(!st.empty()){
+            auto [c, n] = st.top();
+            ret += string(n, c); st.pop();
+        }
+        
+        reverse(ret.begin(), ret.end());
+        
+        return ret;
     }
 };
